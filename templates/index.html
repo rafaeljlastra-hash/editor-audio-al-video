@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editor de audio para video</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace" aria-labelledby="app-title">
+        <div class="header">
+          <p class="eyebrow">Reemplazo de audio en video</p>
+          <h1 id="app-title">Editor de audio para video</h1>
+        </div>
+
+        <form class="upload-panel" id="video-form">
+          <label for="video-input">Video MP4</label>
+          <div class="file-row">
+            <input id="video-input" name="video" type="file" accept="video/mp4" required>
+            <button type="submit">Subir video</button>
+          </div>
+          <p class="hint" id="video-status">Pendiente</p>
+        </form>
+
+        <form class="upload-panel" id="audio-form">
+          <label for="audio-input">Audio MP3</label>
+          <div class="file-row">
+            <input id="audio-input" name="audio" type="file" accept="audio/mpeg,.mp3" required>
+            <button type="submit">Subir audio</button>
+          </div>
+          <p class="hint" id="audio-status">Pendiente</p>
+        </form>
+
+        <div class="actions">
+          <button id="process-button" type="button">Generar video final</button>
+          <a class="download-link hidden" id="download-link" href="/api/download">Descargar video final</a>
+        </div>
+
+        <p class="generated-file hidden" id="generated-file"></p>
+
+        <div class="status-box" id="process-status" role="status" aria-live="polite">
+          Sube un video MP4 y un audio MP3 para comenzar.
+        </div>
+
+        <p class="note">
+          Nota: este MVP reemplaza el audio completo desde el inicio del video. La sincronización fina se abordará en una fase posterior.
+        </p>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

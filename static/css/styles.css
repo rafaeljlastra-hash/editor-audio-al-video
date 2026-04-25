@@ -1,0 +1,161 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f7f8;
+  color: #182026;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+}
+
+.workspace {
+  width: min(760px, 100%);
+  display: grid;
+  gap: 18px;
+}
+
+.header {
+  display: grid;
+  gap: 4px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #5d6f7a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 7vw, 3.8rem);
+  line-height: 1;
+}
+
+.upload-panel,
+.status-box {
+  background: #ffffff;
+  border: 1px solid #dbe3e7;
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.upload-panel {
+  display: grid;
+  gap: 12px;
+}
+
+label {
+  font-weight: 700;
+}
+
+.file-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+input[type="file"] {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #c7d2d8;
+  border-radius: 6px;
+  background: #fbfcfd;
+}
+
+button,
+.download-link {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 0;
+  padding: 0 16px;
+  background: #1d6f8a;
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:hover,
+.download-link:hover {
+  background: #15586f;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.hint {
+  margin: 0;
+  color: #5d6f7a;
+}
+
+.generated-file,
+.note {
+  margin: 0;
+  color: #637781;
+  font-size: 0.92rem;
+}
+
+.note {
+  line-height: 1.45;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.status-box {
+  min-height: 62px;
+  color: #30414b;
+}
+
+.hidden {
+  display: none;
+}
+
+.success {
+  color: #0f6b3d;
+}
+
+.error {
+  color: #a32929;
+}
+
+@media (max-width: 620px) {
+  .file-row {
+    grid-template-columns: 1fr;
+  }
+
+  button,
+  .download-link {
+    width: 100%;
+  }
+}
