@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request, send_file, session
 
 from config import Config
 from services.ffmpeg_service import FFmpegNotAvailableError, replace_video_audio
+from services.file_service import cleanup_files, cleanup_temp_files
 
 
 processing_bp = Blueprint("processing", __name__, url_prefix="/api")
@@ -72,6 +73,12 @@ def process_video():
         return jsonify({"ok": False, "error": str(exc)}), 500
 
     session["output_path"] = str(output_file)
+    cleanup_temp_files(Config.TEMP_DIR)
+
+    if Config.CLEANUP_INPUT_FILES:
+        cleanup_files([video_file, audio_file])
+        session.pop("video_path", None)
+        session.pop("audio_path", None)
 
     return jsonify(
         {

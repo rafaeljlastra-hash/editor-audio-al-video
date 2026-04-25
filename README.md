@@ -31,6 +31,7 @@ Variables disponibles:
 - `MAX_AUDIO_MB`: tamano maximo permitido para el audio MP3.
 - `FFMPEG_BINARY`: nombre o ruta del binario de FFmpeg.
 - `OUTPUT_PREFIX`: prefijo usado para nombrar los videos generados.
+- `CLEANUP_INPUT_FILES`: por defecto `0`. Si vale `1`, elimina el video y audio de entrada despues de generar correctamente el resultado.
 
 Ejemplo minimo:
 
@@ -42,9 +43,12 @@ MAX_VIDEO_MB=500
 MAX_AUDIO_MB=100
 FFMPEG_BINARY=ffmpeg
 OUTPUT_PREFIX=video-final
+CLEANUP_INPUT_FILES=0
 ```
 
 Tambien puedes copiar `.env.example` como punto de partida.
+
+Tras cada generacion exitosa, `storage/temp` se limpia automaticamente. La limpieza nunca elimina archivos de `storage/output`.
 
 ## Uso rapido
 

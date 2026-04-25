@@ -43,6 +43,7 @@ class Config:
 
     FFMPEG_BINARY = os.getenv("FFMPEG_BINARY", "ffmpeg")
     OUTPUT_PREFIX = os.getenv("OUTPUT_PREFIX", "video-final")
+    CLEANUP_INPUT_FILES = _env_bool("CLEANUP_INPUT_FILES", False)
 
     ALLOWED_VIDEO_EXTENSIONS = {".mp4"}
     ALLOWED_AUDIO_EXTENSIONS = {".mp3"}
