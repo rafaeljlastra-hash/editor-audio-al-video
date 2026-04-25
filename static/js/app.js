@@ -2,10 +2,13 @@ const videoForm = document.querySelector("#video-form");
 const audioForm = document.querySelector("#audio-form");
 const videoStatus = document.querySelector("#video-status");
 const audioStatus = document.querySelector("#audio-status");
+const videoInput = document.querySelector("#video-input");
+const audioInput = document.querySelector("#audio-input");
 const processStatus = document.querySelector("#process-status");
 const processButton = document.querySelector("#process-button");
 const downloadLink = document.querySelector("#download-link");
 const generatedFile = document.querySelector("#generated-file");
+const delayInput = document.querySelector("#delay-input");
 
 function setStatus(element, message, type = "") {
   element.textContent = message;
@@ -17,9 +20,7 @@ function setProcessStatus(message, type = "") {
   processStatus.className = type ? `status-box ${type}` : "status-box";
 }
 
-async function uploadFile(form, url, fieldName, statusElement) {
-  const input = form.querySelector(`input[name="${fieldName}"]`);
-
+async function uploadFile(input, url, fieldName, statusElement) {
   if (!input.files.length) {
     setStatus(statusElement, "Selecciona un archivo antes de subirlo.", "error");
     return;
@@ -52,17 +53,22 @@ async function uploadFile(form, url, fieldName, statusElement) {
   }
 }
 
-videoForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  uploadFile(videoForm, "/api/upload/video", "video", videoStatus);
+videoInput.addEventListener("change", () => {
+  uploadFile(videoInput, "/api/upload/video", "video", videoStatus);
 });
 
-audioForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  uploadFile(audioForm, "/api/upload/audio", "audio", audioStatus);
+audioInput.addEventListener("change", () => {
+  uploadFile(audioInput, "/api/upload/audio", "audio", audioStatus);
 });
 
 processButton.addEventListener("click", async () => {
+  const delay = Number(delayInput.value || 0);
+
+  if (!Number.isFinite(delay) || delay < 0) {
+    setProcessStatus("El retraso del audio debe ser un numero mayor o igual a 0.", "error");
+    return;
+  }
+
   processButton.disabled = true;
   downloadLink.classList.add("hidden");
   generatedFile.classList.add("hidden");
@@ -72,6 +78,10 @@ processButton.addEventListener("click", async () => {
   try {
     const response = await fetch("/api/process", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ delay }),
     });
     const data = await response.json();
 

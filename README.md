@@ -22,6 +22,16 @@ pip install -r requirements.txt
 
 Puedes crear un archivo `.env` en la raiz del proyecto para ajustar la configuracion local. El archivo `.env` no se versiona.
 
+Variables disponibles:
+
+- `FLASK_HOST`: direccion donde Flask escucha conexiones.
+- `FLASK_PORT`: puerto local de Flask.
+- `FLASK_DEBUG`: activa (`1`) o desactiva (`0`) el modo debug.
+- `MAX_VIDEO_MB`: tamano maximo permitido para el video MP4.
+- `MAX_AUDIO_MB`: tamano maximo permitido para el audio MP3.
+- `FFMPEG_BINARY`: nombre o ruta del binario de FFmpeg.
+- `OUTPUT_PREFIX`: prefijo usado para nombrar los videos generados.
+
 Ejemplo minimo:
 
 ```env
@@ -50,10 +60,13 @@ http://127.0.0.1:5000
 
 Flujo del MVP:
 
-1. Subir video MP4.
-2. Subir audio MP3.
-3. Pulsar `Generar video final`.
-4. Descargar el MP4 generado.
+1. Seleccionar video MP4. Se sube automaticamente.
+2. Seleccionar audio MP3. Se sube automaticamente.
+3. Ajustar el retraso del audio si es necesario.
+4. Pulsar `Generar video final`.
+5. Descargar el MP4 generado.
+
+Nota: Este MVP reemplaza el audio desde el inicio. La sincronizacion fina se abordara en futuras versiones.
 
 ## Comando FFmpeg usado
 

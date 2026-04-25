@@ -8,6 +8,7 @@ env/
 
 .env
 .flaskenv
+.vscode/
 
 instance/
 

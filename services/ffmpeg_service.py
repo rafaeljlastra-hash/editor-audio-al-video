@@ -29,10 +29,16 @@ def ensure_ffmpeg_available() -> None:
         )
 
 
-def replace_video_audio(video_path: Path, audio_path: Path, output_dir: Path) -> Path:
+def replace_video_audio(
+    video_path: Path,
+    audio_path: Path,
+    output_dir: Path,
+    audio_delay: float = 0.0,
+) -> Path:
     ensure_ffmpeg_available()
 
     output_path = unique_output_path(output_dir, video_path, Config.OUTPUT_PREFIX)
+    delay_ms = int(audio_delay * 1000)
     command = [
         Config.FFMPEG_BINARY,
         "-y",
@@ -40,10 +46,12 @@ def replace_video_audio(video_path: Path, audio_path: Path, output_dir: Path) ->
         str(video_path),
         "-i",
         str(audio_path),
+        "-filter_complex",
+        f"[1:a]adelay={delay_ms}|{delay_ms}[a]",
         "-map",
         "0:v:0",
         "-map",
-        "1:a:0",
+        "[a]",
         "-c:v",
         "copy",
         "-c:a",

@@ -18,19 +18,23 @@
           <label for="video-input">Video MP4</label>
           <div class="file-row">
             <input id="video-input" name="video" type="file" accept="video/mp4" required>
-            <button type="submit">Subir video</button>
           </div>
-          <p class="hint" id="video-status">Pendiente</p>
+          <p class="hint" id="video-status">Selecciona un video MP4</p>
         </form>
 
         <form class="upload-panel" id="audio-form">
           <label for="audio-input">Audio MP3</label>
           <div class="file-row">
             <input id="audio-input" name="audio" type="file" accept="audio/mpeg,.mp3" required>
-            <button type="submit">Subir audio</button>
           </div>
-          <p class="hint" id="audio-status">Pendiente</p>
+          <p class="hint" id="audio-status">Selecciona un audio MP3</p>
         </form>
+
+        <div class="upload-panel">
+          <label for="delay-input">Retraso del audio (segundos)</label>
+          <input id="delay-input" name="delay" type="number" min="0" step="0.1" value="0" inputmode="decimal">
+          <p class="hint">Usa 0 para insertar el audio desde el inicio.</p>
+        </div>
 
         <div class="actions">
           <button id="process-button" type="button">Generar video final</button>

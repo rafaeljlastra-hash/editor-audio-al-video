@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from flask import Blueprint, jsonify, send_file, session
+from flask import Blueprint, jsonify, request, send_file, session
 
 from config import Config
 from services.ffmpeg_service import FFmpegNotAvailableError, replace_video_audio
@@ -18,10 +18,30 @@ def is_inside_storage(path: Path) -> bool:
     return True
 
 
+def parse_audio_delay(value) -> tuple[float | None, str | None]:
+    if value in (None, ""):
+        return 0.0, None
+
+    try:
+        delay = float(value)
+    except (TypeError, ValueError):
+        return None, "El retraso del audio debe ser un numero mayor o igual a 0."
+
+    if delay < 0:
+        return None, "El retraso del audio debe ser mayor o igual a 0."
+
+    return delay, None
+
+
 @processing_bp.post("/process")
 def process_video():
     video_path = session.get("video_path")
     audio_path = session.get("audio_path")
+    payload = request.get_json(silent=True) or {}
+    delay, delay_error = parse_audio_delay(payload.get("delay", 0))
+
+    if delay_error:
+        return jsonify({"ok": False, "error": delay_error}), 400
 
     if not video_path:
         return jsonify({"ok": False, "error": "Primero debes subir un video MP4."}), 400
@@ -45,7 +65,7 @@ def process_video():
         return jsonify({"ok": False, "error": "El archivo de audio ya no existe."}), 400
 
     try:
-        output_file = replace_video_audio(video_file, audio_file, Config.OUTPUT_DIR)
+        output_file = replace_video_audio(video_file, audio_file, Config.OUTPUT_DIR, delay)
     except FFmpegNotAvailableError as exc:
         return jsonify({"ok": False, "error": str(exc)}), 500
     except RuntimeError as exc:
